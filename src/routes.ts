@@ -8,7 +8,8 @@ const router = Router();
 router.post('/feedbacks', async (req: Request, res: Response) => {
   const {type, comment, screenshot} = req.body;
 
-  const prismaFeedbacksRepository = new PrismaFeedbackRepository();
+  try {
+    const prismaFeedbacksRepository = new PrismaFeedbackRepository();
   const nodeMailerMailadapter = new NodeMailerMailAdapter()
 
   const submitFeedbackUseCase = new SubmitFeedbackUseCase(prismaFeedbacksRepository, nodeMailerMailadapter);
@@ -20,6 +21,9 @@ router.post('/feedbacks', async (req: Request, res: Response) => {
   })
 
   return res.status(201).send();
+  } catch(err) {
+    console.log(err)
+  }
 })
 
 export { router }
